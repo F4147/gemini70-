@@ -6,8 +6,12 @@
     <title>🎄 冬のクイズ</title>
 
     <style>
+        /* CSSスタイルは以前のバージョンと同一ですが、
+           ぴこぴこアニメーションが動作するようにクラス名調整が必要です。
+           ここでは簡略化し、必要なキーフレームと要素を定義します。 */
+
         body {
-            background-color: #1e3c72; /* デフォルトの背景色（画像読み込み中など） */
+            background-color: #1e3c72;
             color: white; 
             font-family: 'Arial', sans-serif;
             margin: 0;
@@ -18,39 +22,31 @@
             min-height: 100vh; 
             text-align: center;
             
-            /* スライドショー用背景のスタイル */
-            background-size: cover; /* 画面全体を覆う (見切れは許容) */
+            background-size: cover; 
             background-position: center; 
             background-attachment: fixed; 
-            transition: background-image 1s ease-in-out; /* 画像切り替え時のフェード効果 */
-            overflow: hidden; /* 雪や浮遊オブジェクトの画面外スクロールを防ぐ */
-            position: relative; /* 雪や浮遊オブジェクトの基準位置 */
+            transition: background-image 1s ease-in-out; 
+            overflow: hidden; 
+            position: relative; 
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.15); /* 半透明の白い背景 */
-            padding: 20px; /* パディングを少し減らしてコンパクトに */
+            background: rgba(255, 255, 255, 0.15); 
+            padding: 20px; 
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             max-width: 400px; 
             width: 90%;
-            z-index: 10; /* 雪やぴこぴこ画像の前面に表示 */
+            z-index: 10; 
         }
 
-        h1 {
-            color: #ffd700; 
-            margin-bottom: 20px;
-            font-size: 1.8em; /* ヘッダーサイズ調整 */
-        }
-
-        /* 入力欄とボタンを囲むコンテナのスタイル */
         .input-group {
             display: flex; 
             gap: 10px; 
             align-items: center; 
             width: 100%;
             max-width: 350px; 
-            margin: 20px auto 0; /* 中央配置と上部余白 */
+            margin: 20px auto 0; 
         }
 
         #answer-input {
@@ -75,10 +71,6 @@
             transition: background-color 0.3s;
         }
 
-        button:hover {
-            background-color: #e74c3c;
-        }
-
         #message {
             margin-top: 15px;
             font-weight: bold;
@@ -90,67 +82,50 @@
             display: none;
         }
 
-        .success-title {
-            font-size: 2.5em;
-            color: #2ecc71; 
-        }
-
-        .success-image {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-            margin-top: 20px;
-            border: 5px solid white;
-        }
-
         /* ------------------------------------- */
         /* ぴこぴこ動く被写体のアニメーションスタイル */
         /* ------------------------------------- */
         .floating-object {
-            width: 60px; /* 画像のサイズ */
+            width: 60px;
             height: 60px;
             position: absolute; 
             background-image: url('被写体.jpg'); 
             background-size: contain; 
             background-repeat: no-repeat;
             background-position: center;
-            z-index: 5; /* 背景とコンテナの間 */
-            opacity: 0.8; /* 少し透明度を設定 */
+            z-index: 5; 
+            opacity: 0.8; 
         }
 
-        /* 被写体の動きのキーフレーム (ランダム感を出すためにいくつか用意) */
-        @keyframes move-x-1 { 0% { left: -10%; } 100% { left: 100%; } } /* 左から右 */
-        @keyframes move-x-2 { 0% { left: 100%; } 100% { left: -10%; } } /* 右から左 */
-        @keyframes move-y {
-            0% { top: -20%; } /* 画面上から出現 */
-            100% { top: 120%; } /* 画面下へ消える */
-        }
+        /* 被写体の動きのキーフレーム */
+        @keyframes move-x-1 { 0% { left: -10%; } 100% { left: 100%; } }
+        @keyframes move-x-2 { 0% { left: 100%; } 100% { left: -10%; } }
+        @keyframes move-y { 0% { top: -20%; } 100% { top: 120%; } } 
         @keyframes sway {
             0% { transform: translateX(0) rotate(0deg); }
             50% { transform: translateX(20px) rotate(5deg); }
             100% { transform: translateX(0) rotate(-5deg); }
         }
 
-        /* 動くオブジェクトの個別設定 (ここでは4つ設定) */
-        /* アニメーションのdurationやdelayを変えることでランダム感を出す */
-        #floating-item-1 {
+        /* 動くオブジェクトの個別設定 */
+        .floating-object-1 {
             animation: move-x-1 25s linear infinite, move-y 20s linear infinite, sway 5s ease-in-out infinite alternate;
             animation-delay: 0s, 0s, 0s;
             left: 10%; top: -10%;
         }
-        #floating-item-2 {
+        .floating-object-2 {
             animation: move-x-2 28s linear infinite, move-y 22s linear infinite, sway 6s ease-in-out infinite alternate;
             animation-delay: 3s, 3s, 3s;
             left: 80%; top: -30%;
             width: 50px; height: 50px;
         }
-        #floating-item-3 {
+        .floating-object-3 {
             animation: move-x-1 22s linear infinite, move-y 18s linear infinite, sway 4s ease-in-out infinite alternate;
             animation-delay: 6s, 6s, 6s;
             left: 30%; top: -50%;
             width: 70px; height: 70px;
         }
-        #floating-item-4 {
+        .floating-object-4 {
             animation: move-x-2 30s linear infinite, move-y 25s linear infinite, sway 7s ease-in-out infinite alternate;
             animation-delay: 9s, 9s, 9s;
             left: 50%; top: -70%;
@@ -167,14 +142,13 @@
             font-family: Arial, sans-serif;
             text-shadow: 0 0 1px #FFF;
             position: absolute;
-            top: -10%; /* 画面上から降らせる */
-            z-index: 1; /* 背景とぴこぴこ画像の間 */
+            top: -10%;
+            z-index: 1; 
             user-select: none;
-            pointer-events: none; /* クリックイベントを通過させる */
+            pointer-events: none; 
             animation: fall linear infinite;
         }
 
-        /* 雪が降るアニメーション */
         @keyframes fall {
             0% { transform: translateY(-10vh); opacity: 0.8; }
             100% { transform: translateY(110vh); opacity: 0; }
@@ -183,15 +157,17 @@
 </head>
 <body>
 
-    <div id="floating-item-1" class="floating-object hidden"></div>
-    <div id="floating-item-2" class="floating-object hidden"></div>
-    <div id="floating-item-3" class="floating-object hidden"></div>
-    <div id="floating-item-4" class="floating-object hidden"></div>
+    
+    <div id="floating-item-1" class="floating-object floating-object-1 hidden"></div>
+    <div id="floating-item-2" class="floating-object floating-object-2 hidden"></div>
+    <div id="floating-item-3" class="floating-object floating-object-3 hidden"></div>
+    <div id="floating-item-4" class="floating-object floating-object-4 hidden"></div>
 
     <div id="snow-container"></div>
 
     <div class="container">
         <div id="quiz-page">
+            
             <div class="input-group">
                 <input type="text" id="answer-input" placeholder="ひらがなで入力してください">
                 <button onclick="checkAnswer()">回答</button>
@@ -203,7 +179,7 @@
             <h1 class="success-title">🎉 Great Answer! 🎉</h1>
             <p>You got it!</p>
             <img src="IMG_038846.jpg" alt="正解の写真" class="success-image"> 
-            </div>
+        </div>
     </div>
 
     <script>
@@ -218,11 +194,10 @@
             'IMG_021239.jpg'
         ];
         let currentImageIndex = 0;
-        const slideIntervalTime = 5000; // 5秒ごとに画像を切り替える
+        const slideIntervalTime = 5000;
 
         // ぴこぴこアニメーションを有効にしたい特定の背景画像ファイル名を指定
-        // この配列に含まれる画像が表示されている時のみ、ぴこぴこアニメーションが有効になります
-        const IMAGES_FOR_ANIMATION = ['IMG_038753.jpg', 'IMG_022689.jpg']; // 例: 2枚の画像でアニメーションを有効に
+        const IMAGES_FOR_ANIMATION = ['IMG_038753.jpg', 'IMG_022689.jpg'];
 
         // 画像を事前に読み込む関数
         function preloadImages(imageArray) {
@@ -230,7 +205,6 @@
                 const img = new Image();
                 img.src = imagePath;
             });
-            // ぴこぴこ画像も読み込み
             const floatingImg = new Image();
             floatingImg.src = '被写体.jpg';
         }
@@ -256,23 +230,21 @@
 
         // --- 雪が降る演出用のJavaScriptコード ---
         const snowContainer = document.getElementById('snow-container');
-        const numberOfSnowflakes = 50; // 雪の粒の数
+        const numberOfSnowflakes = 50;
 
         function createSnowflake() {
             const snowflake = document.createElement('div');
             snowflake.classList.add('snowflake');
-            snowflake.textContent = '❄️'; // または '•', '.' など
+            snowflake.textContent = '❄️';
             
-            // ランダムな位置とサイズ、アニメーション速度
             snowflake.style.left = Math.random() * 100 + 'vw';
-            snowflake.style.animationDuration = Math.random() * 10 + 5 + 's'; // 5〜15秒
-            snowflake.style.animationDelay = Math.random() * 10 + 's'; // 0〜10秒遅れて開始
-            snowflake.style.fontSize = Math.random() * 1.5 + 0.8 + 'em'; // 0.8em〜2.3em
-            snowflake.style.opacity = Math.random() * 0.5 + 0.5; // 0.5〜1の透明度
+            snowflake.style.animationDuration = Math.random() * 10 + 5 + 's';
+            snowflake.style.animationDelay = Math.random() * 10 + 's';
+            snowflake.style.fontSize = Math.random() * 1.5 + 0.8 + 'em';
+            snowflake.style.opacity = Math.random() * 0.5 + 0.5;
 
             snowContainer.appendChild(snowflake);
 
-            // 画面外に出たら削除して新しい雪を生成 (メモリ最適化)
             snowflake.addEventListener('animationiteration', () => {
                 snowflake.remove();
                 createSnowflake();
@@ -281,13 +253,11 @@
 
         // ページ読み込み時に実行
         document.addEventListener('DOMContentLoaded', () => {
-            preloadImages(backgroundImages); // 最初に全ての画像をキャッシュさせる
+            preloadImages(backgroundImages);
 
-            // スライドショー開始
             changeBackgroundImage(); 
             setInterval(changeBackgroundImage, slideIntervalTime);
 
-            // 雪の生成開始
             for (let i = 0; i < numberOfSnowflakes; i++) {
                 createSnowflake();
             }
@@ -295,7 +265,7 @@
 
 
         // --- クイズロジックのJavaScriptコード ---
-        const CORRECT_ANSWER = "スキー"; // 正解ワード
+        const CORRECT_ANSWER = "スキー";
 
         function checkAnswer() {
             const inputElement = document.getElementById('answer-input');
@@ -318,4 +288,3 @@
     </script>
 </body>
 </html>
-```http://googleusercontent.com/image_generation_content/2
